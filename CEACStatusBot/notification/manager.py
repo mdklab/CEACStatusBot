@@ -22,6 +22,7 @@ class NotificationManager():
         res = query_status(self.__location, self.__number, self.__passport_number, self.__surname, self.__captchaHandle)
 
         current_state = re.sub(r'[^a-zA-Z0-9]', '_', f"{res['status']}:{res['case_last_updated']}:{res['description']}")
+        current_state = re.sub(r'_+', '_', current_state).strip('_')
 
         if current_state == last_state:
             print("State has not changed. Skipping notification.")
