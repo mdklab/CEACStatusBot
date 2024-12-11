@@ -18,6 +18,7 @@ class NotificationManager():
         import os
         import re
         last_state = os.getenv("LAST_STATE", "")
+        print("LAST_STATE = ", last_state)
 
         res = query_status(self.__location, self.__number, self.__passport_number, self.__surname, self.__captchaHandle)
 

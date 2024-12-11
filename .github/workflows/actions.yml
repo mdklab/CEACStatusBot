@@ -48,8 +48,8 @@ jobs:
           TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
           LAST_STATE: ${{ env.LAST_STATE }}
         run: |
-          LAST_STATE=$(python trigger.py)
-          echo "LAST_STATE=$LAST_STATE" >> $GITHUB_ENV
+          python trigger.py > output.txt
+          echo "LAST_STATE=$(cat output.txt)" >> $GITHUB_ENV
 
       - name: update LAST_STATE variable
         if: always()
