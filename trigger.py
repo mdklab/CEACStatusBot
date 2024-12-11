@@ -33,5 +33,6 @@ except KeyError:
 
 new_state = notificationManager.send()
 if new_state:
-    print(new_state)
+    with open("output.txt", "w") as f:
+        f.write(new_state)
 

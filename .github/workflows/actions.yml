@@ -47,10 +47,14 @@ jobs:
           TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
           TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
         run: |
-          python trigger.py > output.txt
-          echo "LAST_STATE=$(cat output.txt)" >> $GITHUB_ENV
+          python trigger.py
 
       - name: update LAST_STATE variable
+        run: |
+          LAST_STATE=$(cat output.txt)
+          echo "LAST_STATE=\"$LAST_STATE\"" >> $GITHUB_ENV
+
+      - name: confirm LAST_STATE update
         if: always()
         run: |
           echo "Updated LAST_STATE: $LAST_STATE"
