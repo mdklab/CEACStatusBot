@@ -44,10 +44,10 @@ class NotificationManager():
 
             if localTime.hour < 8 or localTime.hour > 22:
                 print("In Manager, no disturbing time")
-                return current_state
+                # return current_state
             if localTime.minute > 30:
                 print("In Manager, no disturbing time")
-                return current_state
+                # return current_state
 
         for notificationHandle in self.__handleList:
             notificationHandle.send(res)
