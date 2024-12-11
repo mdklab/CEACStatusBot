@@ -31,4 +31,7 @@ try:
 except KeyError:
     print("Telegram bot notification config error")
 
-notificationManager.send()
+new_state = notificationManager.send()
+if new_state:
+    print(new_state)
+

@@ -14,11 +14,20 @@ class NotificationManager():
     def addHandle(self, notificationHandle:NotificationHandle) -> None:
         self.__handleList.append(notificationHandle)
 
-    def send(self,) -> None:
+    def send(self,) -> str:
+        import os
+        last_state = os.getenv("LAST_STATE", "")
+
         res = query_status(self.__location, self.__number, self.__passport_number, self.__surname, self.__captchaHandle)
 
+        current_state = f"{res['status']}:{res['case_last_updated']}:{res['description']}"
+
+        if current_state == last_state:
+            print("State has not changed. Skipping notification.")
+            return last_state
+
         if res['status'] == "Refused":
-            import os,pytz,datetime
+            import pytz, datetime
             try:
                 TIMEZONE = os.environ["TIMEZONE"]
                 localTimeZone = pytz.timezone(TIMEZONE)
@@ -32,10 +41,12 @@ class NotificationManager():
 
             if localTime.hour < 8 or localTime.hour > 22:
                 print("In Manager, no disturbing time")
-                return
+                return current_state
             if localTime.minute > 30:
                 print("In Manager, no disturbing time")
-                return
+                return current_state
 
         for notificationHandle in self.__handleList:
             notificationHandle.send(res)
+
+        return current_state

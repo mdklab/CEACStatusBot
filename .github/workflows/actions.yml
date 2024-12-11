@@ -46,4 +46,12 @@ jobs:
           SMTP: ${{ secrets.SMTP }}
           TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
           TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
-        run: python trigger.py
+          LAST_STATE: ${{ env.LAST_STATE }}
+        run: |
+          LAST_STATE=$(python trigger.py)
+          echo "LAST_STATE=$LAST_STATE" >> $GITHUB_ENV
+
+      - name: update LAST_STATE variable
+        if: always()
+        run: |
+          echo "Updated LAST_STATE: $LAST_STATE"
