@@ -46,6 +46,7 @@ jobs:
           SMTP: ${{ secrets.SMTP }}
           TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
           TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
+          LAST_STATE: ${{ env.LAST_STATE }}
         run: |
           python trigger.py
 
