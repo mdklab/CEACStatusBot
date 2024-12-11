@@ -33,6 +33,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: load LAST_STATE from GitHub Secrets
+        run: |
+          echo "LAST_STATE=${{ secrets.LAST_STATE }}" >> $GITHUB_ENV
+
       - name: execute py script # run main.py
         env:
           LOCATION: ${{ secrets.LOCATION }}
@@ -46,14 +50,14 @@ jobs:
           SMTP: ${{ secrets.SMTP }}
           TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
           TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
-          LAST_STATE: ${{ env.LAST_STATE }}
+          LAST_STATE: ${{ secrets.LAST_STATE }}
         run: |
           python trigger.py
 
-      - name: update LAST_STATE variable
+      - name: update LAST_STATE in GitHub Secrets
         run: |
           LAST_STATE=$(cat output.txt)
-          echo "LAST_STATE=\"$LAST_STATE\"" >> $GITHUB_ENV
+          gh secret set LAST_STATE -b "$LAST_STATE"
 
       - name: confirm LAST_STATE update
         if: always()
