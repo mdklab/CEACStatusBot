@@ -55,6 +55,8 @@ jobs:
           python trigger.py
 
       - name: update LAST_STATE in GitHub Secrets
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           LAST_STATE=$(cat output.txt)
           gh secret set LAST_STATE -b "$LAST_STATE"
