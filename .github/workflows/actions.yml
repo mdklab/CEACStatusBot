@@ -8,9 +8,6 @@ on:
   schedule:
     - cron: '13,43 * * * *' # At 00:00 on Monday
 
-permissions:
-  secrets: write
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -59,7 +56,7 @@ jobs:
 
       - name: update LAST_STATE in GitHub Secrets
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         run: |
           LAST_STATE=$(cat output.txt)
           gh secret set LAST_STATE -b "$LAST_STATE"
