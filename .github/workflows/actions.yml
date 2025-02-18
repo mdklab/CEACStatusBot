@@ -6,14 +6,14 @@ on:
       - main
   workflow_dispatch:
   schedule:
-    - cron: '13,43 * * * *' # At 00:00 on Monday
+    - cron: '13,43 * * * *' # At 13 and 43 minutes past every hour
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: checkout repo content
-        uses: actions/checkout@v2 # checkout the repository content
+        uses: actions/checkout@v4 # checkout the repository content
 
       - name: setup python
         uses: actions/setup-python@v4
@@ -21,7 +21,7 @@ jobs:
           python-version: '3.10' # install the python version needed
 
       - name: cache python packages
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
